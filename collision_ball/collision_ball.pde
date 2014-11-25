@@ -1,79 +1,62 @@
-//declare PVectors and variables
-float sz=100;
-float sz2=150;
-PVector loc, vel, acc;
-PVector loc2, vel2, acc2;
+//declare PVector arrays and variable arrays
+int count=100;
+PVector[] loc= new PVector[count];
+PVector[] vel= new PVector[count];
+PVector[] acc= new PVector[count];
+float[] sz= new float[count];
+float[] mass= new float[count];
+int minDiam= 10;
+int maxDiam= 30;
 
 void setup() {
-  size(800, 700); 
-  //initialize the PVectors
-  loc=new PVector(width/2, height/2);
-  vel=new PVector(-6, -5);
-  acc=new PVector();
-  loc2=new PVector(width/5, height/5);
-  vel2=new PVector(7, 4);
-  acc2=new PVector();
+  frameRate(120);
+  size(600, 500);
+  for (int i=0; i<count; i++) {
+    //initialize variables
+    sz[i]=random(minDiam, maxDiam);
+    loc[i]=new PVector(random(0, width), random(0, height));
+    vel[i]=PVector.random2D();
+    acc[i]=new PVector(0, 0);
+    mass[i]= map(sz[i], minDiam, maxDiam, .5, 1.5);
+  }
 }
 
 void draw() {
   background(0);
 
-  //draw ellipse based on loc
-  ellipse(loc.x, loc.y, sz, sz);
-  ellipse(loc2.x, loc2.y, sz2, sz2);
+  for (int i=0; i<count; i++) {
 
-  //increase vel by acc
-  vel.add(acc);
-  vel2.add(acc);
+    //increase vel by acc
+    vel[i].add(acc[i]);
 
-  //increase loc by vel
-  loc.add(vel);
-  loc2.add(vel2);
+    //increase loc by vel
+    loc[i].add(vel[i]);
 
-  //make first ball bounce off the wall
-  if (loc.x+sz/2>width) {
-    vel.x=-abs(vel.x);
-  }
-  if (loc.x-sz/2<0) {
-    vel.x=abs(vel.x);
-  }
-  if (loc.y+sz/2>height) {
-    vel.y=-abs(vel.y);
-  }
-  if (loc.y-sz/2<0) {
-    vel.y=abs(vel.y);
-  }
+    // draw ellipse
+    ellipse(loc[i].x, loc[i].y, sz[i], sz[i]);
 
-  //make second ball bounce off the wall
-  if (loc2.x+sz/2>width) {
-    vel2.x=-abs(vel2.x);
-  }
-  if (loc2.x-sz2/2<0) {
-    vel2.x=abs(vel2.x);
-  }
-  if (loc2.y+sz2/2>height) {
-    vel2.y=-abs(vel2.y);
-  }
-  if (loc2.y-sz2/2<0) {
-    vel2.y=abs(vel2.y);
-  }
-
-  //make balls bounce off each other
-  if (loc.dist(loc2)<(sz/2)+(sz2/2)) {
-    println("touch   ");
-    if (loc.x<loc2.x) {
-      vel.x=-abs(vel.x);
-      vel2.x=abs(vel2.x);
-    } else {
-      vel.x=abs(vel.x);
-      vel2.x=-abs(vel2.x);
+    //make first ball bounce off the wall
+    if (loc[i].x+sz[i]/2>width) {
+      vel[i].x=-abs(vel[i].x);
     }
-    if (loc.y<loc2.y) {
-      vel.y=-abs(vel.y);
-      vel2.y=abs(vel2.y);
-    } else {
-      vel.y=abs(vel.y);
-      vel2.y=-abs(vel2.y);
+    if (loc[i].x-sz[i]/2<0) {
+      vel[i].x=abs(vel[i].x);
+    }
+    if (loc[i].y+sz[i]/2>height) {
+      vel[i].y=-abs(vel[i].y);
+    }
+    if (loc[i].y-sz[i]/2<0) {
+      vel[i].y=abs(vel[i].y);
+    }
+    //checking if the balls bounce off each other
+    for (int j=0; j<count; j++) {
+      if (i!=j) {
+        if (loc[i].dist(loc[j])<(sz[i]/2)+(sz[j]/2)) {
+          println("touch   ");
+          vel[i]= PVector.sub(loc[i], loc[j]);
+          vel[i].normalize();
+        }
+      }
     }
   }
 }
