@@ -8,7 +8,7 @@ float[] sz= new float[count];
 void setup() {
   for (int i=0; i<count; i++) {
     sz[i]=random(10, 15);
-    loc[i]=new PVector(random(width), random(height, sz/2));
+    loc[i]=new PVector(random(width), random(-height, -sz/2));
     vel[i]=new PVector(0, 1);
     acc[i]=new PVector(0, .01);
   }
