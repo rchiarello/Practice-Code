@@ -24,7 +24,6 @@ void draw() {
 class Ball {
   //define properties of the ball class
   float sz;
-  int h;
   PVector loc, vel;
 
   //assign values to the properties of the class
