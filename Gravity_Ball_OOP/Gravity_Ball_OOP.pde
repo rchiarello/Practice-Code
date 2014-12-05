@@ -67,7 +67,7 @@ class GravityBall {
   }
   
   void wrap() {
-    //bounce the ball
+    //wrap the ball around
     if (loc.x-sz/2>width) {
       loc.x=-sz/2;
       vel.x=-1;

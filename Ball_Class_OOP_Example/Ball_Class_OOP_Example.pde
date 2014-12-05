@@ -1,36 +1,44 @@
 //declaring new object of the ball class
-Ball b;
-Ball c;
+int count=10;
+Ball[] b= new Ball[count];
+
 
 void setup() {
   size(500, 500);
   //initialize new balls
-  b=new Ball();
-  c=new Ball();
+  for (int i=0; i<count; i++) {
+    b[i]= new Ball();
+  }
 }
 
 void draw() {
   background(0);
-  b.move();
-  b.bounce();
-  b.display();
-  c.move();
-  c.bounce();
-  c.display();
+  for (int i=0; i<count; i++) {
+    b[i].move();
+    b[i].bounce();
+    b[i].display();
+    b[i].fills();
+    for (int j=0; j<count; j++) {
+      if (i!=j) {
+        b[i].collide(b[j]);
+      }
+    }
+  }
 }
 
 
 //setting up the class called Ball
 class Ball {
   //define properties of the ball class
-  float sz;
+  float sz, h;
   PVector loc, vel;
 
   //assign values to the properties of the class
   Ball() {
-    sz=50;
-    loc= new PVector(width/2, height/2);
+    sz=random(50,150);
+    loc= new PVector(random(sz, width-sz), random(sz, height-sz));
     vel= PVector.random2D();
+    h=random(360);
   }
 
   //make the ball do things using methods (defining a function)
@@ -54,5 +62,38 @@ class Ball {
       vel.y*=-1;
     }
   }
+
+  void collide(Ball b2) {
+    if (loc.dist(b2.loc) < sz/2 + b2.sz/2) {
+      vel=PVector.sub(loc, b2.loc);
+      vel.normalize();
+    }
+  }
+  
+  void fills() {
+    colorMode(HSB, 360, 100, 100, 100);
+    fill(h, 50, 100, 100);
+  }
+  
+  void wrap() {
+    //wrap the ball around
+    if (loc.x-sz/2>width) {
+      loc.x=-sz/2;
+    }
+    if (loc.x+sz/2<0) {
+      loc.x=width+sz/2;
+    }
+    if (loc.y-sz/2>height) {
+      loc.y=-sz/2;
+    }
+    if(loc.y+sz/2<0){
+      loc.y=height+sz/2;
+    }
+  }
 }
+
+
+//////////////////////////////////////////////////////
+//////////////////////////////////////////////////////
+
 
