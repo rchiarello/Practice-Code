@@ -1,36 +1,3 @@
-//declaring new object of the ball class
-int count=100;
-Ball[] b= new Ball[count];
-
-
-void setup() {
-  size(800, 600);
-  //initialize new balls
-  for (int i=0; i<count; i++) {
-    b[i]= new Ball();
-  }
-}
-
-void draw() {
-  colorMode(RGB);
-  background(0, 0, 20);
-  for (int i=0; i<count; i++) {
-    b[i].move();
-    b[i].wrap();
-    b[i].display();
-    b[i].fills();
-    for (int j=0; j<count; j++) {
-      if (i!=j) {
-        b[i].collide(b[j]);
-      }
-    }
-  }
-}
-
-////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////
-
 //setting up the class called Ball
 class Ball {
   //define properties of the ball class
@@ -38,11 +5,11 @@ class Ball {
   PVector loc, vel;
 
   //assign values to the properties of the class
-  Ball() {
-    sz=random(20, 80);
-    loc= new PVector(random(sz, width-sz), random(sz, height-sz));
+  Ball(float tempx, float tempy, float tempsz) {
+    sz=tempsz;
+    loc= new PVector(tempx, tempy);
     vel= PVector.random2D();
-    h=random(180,220);
+    h=random(180, 220);
     s=100;
     b=100;
     a=70;
@@ -78,8 +45,10 @@ class Ball {
   }
 
   void fills() {
+    noStroke();
     colorMode(HSB, 360, 100, 100, 100);
     fill(h, s, b, a);
+    a-=.1;
   }
 
   void wrap() {
@@ -98,9 +67,4 @@ class Ball {
     }
   }
 }
-
-
-
-//////////////////////////////////////////////////////
-//////////////////////////////////////////////////////
 
