@@ -6,7 +6,7 @@ void setup() {
   size(800, 600);
   eating=new BlackHole();
   //initialize new balls
-  //  b.add(new Ball(width/2, height/2, random(30, 100)));
+  b.add(new Ball(width/2, height/2, random(30, 100)));
 }
 
 void draw() {
@@ -30,7 +30,7 @@ void draw() {
     }
   }
 }
-void mousePressed() {
+void mouseDragged() {
   for (int i=0; i<1; i++) {
     b.add(new Ball(random(100, width-100), random(100, height-100), random(30, 60)));
   }
