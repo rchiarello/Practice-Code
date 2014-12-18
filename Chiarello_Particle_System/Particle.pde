@@ -10,8 +10,8 @@ class Particle {
 
     //INITIALIZING VARIABLES
     loc=new PVector(tempX, tempY);
-    vel=new PVector(0, random(1, 3));
-    acc=new PVector(0, .2);
+    vel=new PVector(0, random(1, 2));
+    acc=new PVector(0, .1);
     sz= 20;
     h=tempH;
     s=80;
@@ -41,9 +41,11 @@ class Particle {
   boolean isDead() {
     //DETERMINING IF THE PARTICLE SHOULD DIE
     if (loc.y-sz>height) {
+
       //PARTICLE SHOULD DIE IF IT GOES BELOW THE BOTTOM OF THE SCREEN
       return true;
     } else {
+
       //PARTICLE SHOULD NOT DIE IF IT IS STILL ON THE SCREEN
       return false;
     }

@@ -1,22 +1,29 @@
-//DEFINING AND INITIALIZING A NEW ARRAY LIST OF PARTICLES
+//DEFINING AND INITIALIZING A NEW ARRAY LIST OF PARTICLES AND CLOUD PARTICLES, AND A NEW LIGHTNING
 ArrayList<Particle> p= new ArrayList<Particle>();
 ArrayList<CloudParticle> c= new ArrayList<CloudParticle>();
+Lightning l;
 
 void setup() {
   size(500, 500);
-}
-
-void draw() {
-  println(c.size());
-  //ADDING A SET NUMBER OF PARTICLES TO THE ARRAY LIST EACH FRAME
-  for (int i=0; i<10; i++) {
-    p.add(new Particle(random(width), -20, random(205, 235), 60));
-  }
 
   //ADDING A SET NUMBER OF CLOUD PARTICLES TO THE ARRAY LIST EACH FRAME
-  for (int i=0; i<1; i++) {
-    c.add(new CloudParticle(random(width), height*.05, random(80, 100)));
+  for (int i=0; i<50; i++) {
+    c.add(new CloudParticle(random(width), random(height*.1), random(80, 100)));
   }
+}
+
+
+void draw() {
+  //PRINTS THE SIZE OF THE PARTICLE ARRAY LIST AND THE CLOUD PARTICLE ARRAY LIST
+  println(c.size(), " and ", p.size());
+  
+  //ADDING A SET NUMBER OF PARTICLES TO THE ARRAY LIST EACH FRAME
+  for (int i=0; i<5; i++) {
+    p.add(new Particle(random(width), 40, random(205, 235), 60));
+  }
+  
+  l.add(new Lightning(random(30, width-30), 40, random(50, 100)));
+  l.display();
 
   //SETTING THE BACKGROUND
   background(230, 100, 15);
@@ -61,9 +68,7 @@ void draw() {
     b.display();
     b.move();
     b.colors();
-    if (b.isDead()) {
-      c.remove(i);
-    }
+    b.teleport(b);
   }
 }
 

@@ -10,18 +10,20 @@ class CloudParticle {
 
     //INITIALIZING VARIABLES
     loc=new PVector(tempX, tempY);
-    vel=new PVector(2, 0);
+    vel=new PVector(random(.5, 1.5), 0);
     acc=new PVector(0, 0);
     sz= tempsz;
     h=0;
     s=0;
     b=50;
-    a=80;
+    a=95;
   }
 
   //DEFINING METHODS FOR THE CLASS
   void display() {
-    stroke(0, 50);
+    //SET THE COLOR OF THE STROKE OF THE CLOUD
+    stroke(0, 5);
+
     //DISPLAYS THE PARTICLE ON THE SCREEN
     ellipse(loc.x, loc.y, sz*2, sz);
   }
@@ -40,12 +42,21 @@ class CloudParticle {
 
   boolean isDead() {
     //DETERMINING IF THE PARTICLE SHOULD DIE
-    if (loc.x>width) {
+    if (loc.x>width+sz/2) {
+
       //PARTICLE SHOULD DIE IF IT GOES TO THE RIGHT OF THE SCREEN
       return true;
     } else {
+
       //PARTICLE SHOULD NOT DIE IF IT IS STILL ON THE SCREEN
       return false;
+    }
+  }
+
+  void teleport(CloudParticle someOtherCloud) {
+    //WHEN THE CLOUD DIES, TRANSPORT IT TO THE LEFT OF THE SCREEN
+    if (someOtherCloud.isDead()) {
+      someOtherCloud.loc.x=-sz;
     }
   }
 }
